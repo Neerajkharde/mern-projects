@@ -1,0 +1,1 @@
+Mongo URI : mongodb+srv://neerajKharde:Neeraj@neeraj.1dztn82.mongodb.net/<dbName>?retryWrites=true&w=majority

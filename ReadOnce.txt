@@ -1,1 +1,18 @@
-Mongo URI : mongodb+srv://neerajKharde:Neeraj@neeraj.1dztn82.mongodb.net/<dbName>?retryWrites=true&w=majority
+Mongo URI : mongodb+srv://<username>:<password>@neeraj.1dztn82.mongodb.net/<dbName>?retryWrites=true&w=majority
+
+UserName = neerajKharde
+Password = Neeraj
+
+1. To find origin link of frontend (for CORS) : open frontend after Nginx setup and in console type : window.location.origin
+2. Frontend .env -> localhost is replaced by public ip of backend_VM
+3. Backend .env -> CLIENT_URL = <whatever you get in step 1 of this file (window.location.origin)>
+
+4. Backend .env -> PORT value is the one on which my backend runs so set inbound rule for that in Azure :
+| Setting          | Value |
+| ---------------- | ----- |
+| Source           | Any   |
+| Source Port      | *     |
+| Destination Port | 5000  |
+| Protocol         | TCP   |
+| Action           | Allow |
+

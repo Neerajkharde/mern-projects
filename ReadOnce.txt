@@ -40,3 +40,11 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
+
+
+If node version problem then:
+    sudo apt remove nodejs -y
+    sudo apt autoremove -y
+    curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+    sudo apt install -y nodejs
+    Then again reinstall frontend dependencies

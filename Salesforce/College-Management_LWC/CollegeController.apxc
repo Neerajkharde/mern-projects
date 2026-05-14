@@ -90,6 +90,7 @@ public class CollegeController {
      public void deleteFaculty() {
         try{
             delete [SELECT Id FROM Faculty__c WHERE Id = :faculty.Id];
+            facultyList = [SELECT Faculty_ID__c, Name, Department__c, Salary__c, Joining_Date__c FROM Faculty__c];
             msg = 'Faculty Record Deleted Successfully';
             
         }catch(Exception e) {

@@ -39,7 +39,7 @@ try{
     Bank__c account = [SELECT Emp_ID__c, Name, 
             Email__c, DOB__c, Department__c FROM Bank__c WHERE Emp_ID__c = :empId];
     
-    account.Name = 'Simran';
+    account.Name = 'Neeraj';
     account.Department__c = 'Debit Card';
     
     update account;

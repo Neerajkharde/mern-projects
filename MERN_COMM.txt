@@ -1,0 +1,67 @@
+1. Frontend and backend: chmod 400 <pem_fileName>.pem
+2. Connect both backend and frontend: ssh -i <pem_fileName>.pem ubuntu@<publicIp>
+3. On both: sudo apt update
+4. Add port 5000 in backend instance
+5. On frontend: sudo apt install nginx
+6. On frontend and backend both:
+    6.1. sudo apt install npm
+    6.2. sudo apt remove nodejs -y
+    6.3. sudo apt autoremove -y
+    6.4. curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+    6.5. sudo apt install nodejs
+7. On frontend and backend: git clone https://github.com/Neerajkharde/mern-projects.git
+8. Choose your project and go to frontend folder on Frontend Vm and in backend folder in Backend Vm
+
+////////////////////////////////////////////////////////
+Frontend
+////////////////////////////////////////////////////////
+
+Add .env file in the root folder of frontend/ (nano .env) - add VITE_API_URL=
+Keep this empty because we are going to add a reverse proxy so keep it !
+
+Then npm i
+
+Now reverse proxy setup on VM1 (only)
+sudo nano /etc/nginx/sites-available/default
+
+and copy paste following code:
+server {
+    listen 80;
+    server_name _;
+
+    # Frontend
+    location / {
+        root /var/www/html;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Reverse proxy to backend VM
+    location /api/ {
+        proxy_pass http://<BackendVM_PUBLIC_IP>:5000;
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+sudo systemctl restart nginx
+sudo systemctl status nginx
+
+npm run build
+
+sudo rm -rf /var/www/html/*
+sudo cp -r dist/* /var/www/html
+
+////////////////////////////////////////////////////////
+Backend
+////////////////////////////////////////////////////////
+Create .env in backend root folder (nano .env) and copy there: 
+PORT=5000
+MONGO_URI=mongodb+srv://neerajKharde:Neeraj@neeraj.1dztn82.mongodb.net/taskManagerDB?retryWrites=true&w=majority
+CLIENT_URL=<Copy this window.location.origin to CLIENT_URL>
+
+npm start
